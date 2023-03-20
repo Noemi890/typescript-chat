@@ -1,25 +1,27 @@
-import {
-  Card,
-  Button
-} from "@mui/material";
+import { Button } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signInWithGoogle } from "./config/firebase";
-import Cookies from "universal-cookie"
+import Cookies from "universal-cookie";
+import { Dispatch, SetStateAction } from "react";
 
-const cookies = new Cookies()
+const cookies = new Cookies();
 
-export const Auth = (): JSX.Element => {
+export interface Props {
+  setIsAuth: Dispatch<SetStateAction<string | null>>;
+}
 
+export const Auth = ({ setIsAuth }: Props): JSX.Element => {
   const handleSignInClick = (): void => {
     signInWithGoogle()
-      .then(data => cookies.set('auth-token', data.user.refreshToken))
+      .then((data) => cookies.set("auth-token", data.user.refreshToken))
+      .then((data) => setIsAuth(cookies.get('auth-token')))
       .catch((e) => {
         console.error(e);
       });
   };
 
   return (
-    <Card sx={{ minWidth: 275, maxWidth: 1000 }}>
+    <div>
       <Button
         sx={{ marginBottom: 5 }}
         variant="contained"
@@ -28,6 +30,6 @@ export const Auth = (): JSX.Element => {
       >
         Sign In with Google
       </Button>
-    </Card>
+    </div>
   );
 };

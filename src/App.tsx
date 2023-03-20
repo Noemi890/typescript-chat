@@ -10,11 +10,11 @@ function App() {
   );
 
   return (
-    <>
-      {!isAuth && <Auth />}
+    <div className="App">
+      {!isAuth && <Auth setIsAuth={setIsAuth} />}
 
-      {isAuth && <Chat />}
-    </>
+      {isAuth && <Chat setIsAuth={setIsAuth}/>}
+    </div>
   );
 }
 
