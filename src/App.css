@@ -1,13 +1,17 @@
-.App {
+* {
   margin: 0;
   padding: 0;
-  display: flex;
   box-sizing: border-box;
+
+  font-family: sans-serif;
+}
+
+.App {
+  display: flex;
+  
   text-align: center;
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
-
-  font-family: sans-serif;
 }

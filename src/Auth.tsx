@@ -8,13 +8,15 @@ import {
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signInWithGoogle } from "./config/firebase";
+import { useNavigate } from "react-router-dom";
 
-export const Auth = () => {
+export const Auth = (): JSX.Element => {
   const [name, setName] = useState<string>("");
+  const navigate = useNavigate()
 
   const handleSignInClick = (): void => {
     signInWithGoogle()
-      .then()
+      .then(data => navigate('/chat', {state: {username: name}}))
       .catch((e) => {
         console.error(e);
       });

@@ -16,9 +16,9 @@ const firebaseConfig = {
 
 const app: FirebaseApp = initializeApp(firebaseConfig);
 const analytics: Analytics = getAnalytics(app);
-export const db: Firestore = getFirestore(app)
-export const auth: Auth = getAuth(app)
-export const provider: GoogleAuthProvider = new GoogleAuthProvider()
+const db: Firestore = getFirestore(app)
+const auth: Auth = getAuth(app)
+const provider: GoogleAuthProvider = new GoogleAuthProvider()
 
 export const signInWithGoogle = (): Promise<UserCredential> => {
   return signInWithPopup(auth, provider)
