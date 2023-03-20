@@ -1,6 +1,6 @@
 import { initializeApp, FirebaseApp } from "firebase/app";
 import { Analytics, getAnalytics } from "firebase/analytics";
-import { Firestore, getFirestore } from "firebase/firestore"
+import { Firestore, getFirestore, getDocs } from "firebase/firestore"
 import { Auth, getAuth, GoogleAuthProvider, signInWithPopup, UserCredential } from "firebase/auth"
 
 
@@ -15,12 +15,15 @@ const firebaseConfig = {
 };
 
 const app: FirebaseApp = initializeApp(firebaseConfig);
-const analytics: Analytics = getAnalytics(app);
 const db: Firestore = getFirestore(app)
 const auth: Auth = getAuth(app)
 const provider: GoogleAuthProvider = new GoogleAuthProvider()
 
 export const signInWithGoogle = (): Promise<UserCredential> => {
   return signInWithPopup(auth, provider)
+}
+
+export const getChat = () => {
+  
 }
 
