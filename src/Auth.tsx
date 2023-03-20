@@ -1,22 +1,18 @@
-import { useState } from "react";
 import {
   Card,
-  CardContent,
-  Button,
-  TextField,
-  Typography,
+  Button
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signInWithGoogle } from "./config/firebase";
-import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie"
+
+const cookies = new Cookies()
 
 export const Auth = (): JSX.Element => {
-  const [name, setName] = useState<string>("");
-  const navigate = useNavigate()
 
   const handleSignInClick = (): void => {
     signInWithGoogle()
-      .then(data => navigate('/chat', {state: {username: name}}))
+      .then(data => cookies.set('auth-token', data.user.refreshToken))
       .catch((e) => {
         console.error(e);
       });
@@ -24,19 +20,6 @@ export const Auth = (): JSX.Element => {
 
   return (
     <Card sx={{ minWidth: 275, maxWidth: 1000 }}>
-      <CardContent>
-        <Typography>
-          Start by choosing your name and connect with your email
-        </Typography>
-        <TextField
-          sx={{ marginBottom: 5, marginTop: 5 }}
-          variant="outlined"
-          label="Your Name"
-          size="small"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </CardContent>
       <Button
         sx={{ marginBottom: 5 }}
         variant="contained"

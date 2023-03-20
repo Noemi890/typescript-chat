@@ -1,15 +1,17 @@
+import { Button } from "@mui/material"
 import { useState } from "react"
-import { useLocation } from "react-router-dom"
+
 
 
 export const Chat = () => {
-  
-  const [message, setMessage] = useState("")
-  const location = useLocation()
 
-  const username = location.state
+  const [message, setMessage] = useState("")
+
+  const handleLogOut = () => {
+
+  }
 
   return (
-    <></>
+    <Button onClick={handleLogOut}>LogOut</Button>
   )
 }

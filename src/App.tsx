@@ -1,16 +1,20 @@
-import React from 'react';
-import { Auth } from './Auth';
-import { Chat } from './components/Chat';
-import { Routes, Route} from "react-router-dom"
+import React, { useState } from "react";
+import { Auth } from "./Auth";
+import { Chat } from "./components/Chat";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 function App() {
+  const [isAuth, setIsAuth] = useState<string | null>(
+    cookies.get("auth-token")
+  );
+
   return (
-    <div className="App">
-      <Routes>
-        <Route path='/' element={<Auth />}/>
-        <Route path='/chat' element={<Chat />}/>
-      </Routes>
-    </div>
+    <>
+      {!isAuth && <Auth />}
+
+      {isAuth && <Chat />}
+    </>
   );
 }
 
