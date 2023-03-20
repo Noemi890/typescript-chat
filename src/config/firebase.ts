@@ -1,6 +1,8 @@
 import { initializeApp, FirebaseApp } from "firebase/app";
 import { Analytics, getAnalytics } from "firebase/analytics";
 import { Firestore, getFirestore } from "firebase/firestore"
+import { Auth, getAuth, GoogleAuthProvider, signInWithPopup, UserCredential } from "firebase/auth"
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAXZhiHYHfYA2xN-g_ZbbIrNdl2V5If0ik",
@@ -15,3 +17,9 @@ const firebaseConfig = {
 const app: FirebaseApp = initializeApp(firebaseConfig);
 const analytics: Analytics = getAnalytics(app);
 export const db: Firestore = getFirestore(app)
+export const auth: Auth = getAuth(app)
+export const provider: GoogleAuthProvider = new GoogleAuthProvider()
+
+export const signInWithGoogle = (): Promise<UserCredential> => {
+  return signInWithPopup(auth, provider)
+}
