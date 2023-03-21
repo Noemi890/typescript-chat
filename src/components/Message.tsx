@@ -8,11 +8,11 @@ interface Props {
 
 export const Message: FC<Props> = ({name, message}) => {
   return(
-    <Card>
+    <Card sx={{ marginBottom: "40px", marginTop: "10px", width: "90%"}}>
       <CardContent>
-        <Typography>{name}</Typography>
-        <Divider />
-        <Typography>{message}</Typography>
+        <Typography>Noemi</Typography>
+        <Divider sx={{margin: "10px 0"}} />
+        <Typography>Hello world</Typography>
       </CardContent>
     </Card>
   )

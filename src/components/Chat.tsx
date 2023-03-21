@@ -1,6 +1,6 @@
-import { Snackbar, Alert, TextField, Divider } from "@mui/material";
+import { Snackbar, Alert, TextField, Divider, Paper } from "@mui/material";
 import { Box } from "@mui/system";
-import LoadingButton from "@mui/lab/LoadingButton"
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import Cookies from "universal-cookie";
 import { NavBar } from "./NavBar";
@@ -18,10 +18,10 @@ interface Props {
 
 export const Chat: FC<Props> = ({ setIsAuth, name }) => {
   const [message, setMessage] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const collectionRef = collection(db, "messages")
+  const collectionRef = collection(db, "messages");
 
   const handleLogOut = () => {
     cookies.remove("auth-token");
@@ -29,45 +29,84 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
   };
 
   const sendMessage = () => {
-    setLoading(true)
+    setLoading(true);
     if (message === "") return;
     try {
       addDoc(collectionRef, {
         text: message,
         createdAt: serverTimestamp(),
-        user: auth.currentUser?.displayName
-      })
-      .then ( () => {
+        user: auth.currentUser?.displayName,
+      }).then(() => {
         setTimeout(() => {
-          setLoading(false)
-          setMessage("")
-        }, 20)
-      })
+          setLoading(false);
+          setMessage("");
+        }, 30);
+      });
     } catch (e) {
-      setLoading(false)
-      setOpen(true)
-      console.error(e)
+      setLoading(false);
+      setOpen(true);
+      console.error(e);
     }
-  }
+  };
+
+  const mockData = [
+    {
+      name: "Noemi",
+      message: "Hello world",
+    },
+    {
+      name: "Noemi",
+      message: "Hello world",
+    },
+    {
+      name: "Noemi",
+      message: "Hello world",
+    },
+    {
+      name: "Noemi",
+      message: "Hello world",
+    },
+    {
+      name: "Noemi",
+      message: "Hello world",
+    },
+    {
+      name: "Noemi",
+      message: "Hello world",
+    },
+    {
+      name: "Noemi",
+      message: "Hello world",
+    },
+    {
+      name: "Noemi",
+      message: "Hello world",
+    },
+  ];
 
   return (
     <>
-      <Box
+      <Paper
         sx={{
-          minWidth: "80vw",
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: "80vw",
           height: "80%",
           overflow: "hidden",
-          border: "solid 5px black",
+          border: "solid 5px black"
         }}
       >
-        
         <div className="chat_container">
-          <Message name={name} message={message}/>
+          {
+            mockData.map((msg, key) => {
+              return <Message key={key} name={msg.name} message={msg.message} />
+            })
+          }
         </div>
         <Divider />
         <div className="message_container">
           <TextField
-            sx={{ width: "50vw", marginRight: "10px"}}
+            sx={{ width: "50vw", marginRight: "10px" }}
             required
             value={message}
             maxRows={2}
@@ -75,9 +114,17 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
             multiline
             placeholder="Write your message here"
           />
-          <LoadingButton loading={loading} variant="contained" color="secondary" endIcon={<Send />} onClick={sendMessage}>Send</LoadingButton>
+          <LoadingButton
+            loading={loading}
+            variant="contained"
+            color="secondary"
+            endIcon={<Send />}
+            onClick={sendMessage}
+          >
+            Send
+          </LoadingButton>
         </div>
-      </Box>
+      </Paper>
       <NavBar handleLogOut={handleLogOut} />
       <Snackbar
         open={open}
