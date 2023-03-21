@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
-import firebase, { initializeTestApp, assertSucceeds } from "@firebase/testing"
+import { initializeTestApp, assertSucceeds } from "@firebase/testing"
 
 const my_project_id = "typescript-chat-7885d"
 

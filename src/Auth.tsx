@@ -9,7 +9,7 @@ type TransitionProps = Omit<SlideProps, 'direction'>;
 
 const cookies = new Cookies();
 
-const TransitionUp = (props: TransitionProps) => {
+export const TransitionUp = (props: TransitionProps) => {
   return <Slide {...props} direction="up"/>
 }
 
@@ -43,6 +43,7 @@ export const Auth: FC<Props> = ({ setIsAuth, setName }) => {
         To start, sign in with Google!
       </Typography>
       <Button
+        data-testId="signInWithGoogle"
         sx={{ marginBottom: 5 }}
         variant="contained"
         color="secondary"
