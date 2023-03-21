@@ -6,7 +6,7 @@ import Cookies from "universal-cookie";
 import { NavBar } from "./NavBar";
 import { MessageItem } from "./MessageItem";
 import { Send } from "@mui/icons-material";
-import { addDoc, collection, getDocs, onSnapshot, query, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, getDocs, onSnapshot, query, orderBy, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { TransitionUp } from "../Auth";
 const cookies = new Cookies();
@@ -20,6 +20,7 @@ interface Message {
   id: string;
   text: string;
   user: string;
+  createdAt: { nanoseconds: string, seconds: string}
 }
 
 export const Chat: FC<Props> = ({ setIsAuth, name }) => {
@@ -34,7 +35,7 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
 
 
   useEffect(() => {
-    const queryMessages = query(collectionRef)
+    const queryMessages = query(collectionRef, orderBy('createdAt'))
     onSnapshot(queryMessages, (snapshot) => {
      let messages: Message[] = []
      snapshot.forEach((doc) => {
@@ -42,6 +43,9 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
       
      })
      setChat(messages)
+    //  const newtime = Number(chat[7].createdAt.seconds) * 1000
+    //  const date = new Date(newtime)
+    //  console.log(date.toDateString())
     })
     //eslint-disable-next-line
   }, [])
@@ -72,41 +76,6 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
     }
   };
 
-  const mockData = [
-    {
-      name: "Noemi",
-      message: "Hello world",
-    },
-    {
-      name: "Noemi",
-      message: "Hello world",
-    },
-    {
-      name: "Noemi",
-      message: "Hello world",
-    },
-    {
-      name: "Noemi",
-      message: "Hello world",
-    },
-    {
-      name: "Noemi",
-      message: "Hello world",
-    },
-    {
-      name: "Noemi",
-      message: "Hello world",
-    },
-    {
-      name: "Noemi",
-      message: "Hello world",
-    },
-    {
-      name: "Noemi",
-      message: "Hello world",
-    },
-  ];
-
   return (
     <>
       <Paper
@@ -123,7 +92,7 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
         <div className="chat_container">
           {
             chat.map((msg, key) => {
-              return <MessageItem key={key} name={msg.user} message={msg.text} />
+              return <MessageItem key={key} name={msg.user} message={msg.text} createdAt={msg.createdAt} />
             })
           }
         </div>
