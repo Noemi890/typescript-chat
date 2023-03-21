@@ -62,7 +62,7 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
       >
         
         <div className="chat_container">
-          <Message />
+          <Message name={name} message={message}/>
         </div>
         <Divider />
         <div className="message_container">
