@@ -1,4 +1,4 @@
-import { Alert, Button, Snackbar } from "@mui/material";
+import { Alert, Button, Snackbar, Typography } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signInWithGoogle } from "./config/firebase";
 import Cookies from "universal-cookie";
@@ -36,9 +36,16 @@ export const Auth: FC<Props> = ({ setIsAuth, setName }) => {
 
   return (
     <div>
+      <Typography fontSize={30} gutterBottom>
+        Welcome to Chat-App!
+      </Typography>
+      <Typography fontSize={25} sx={{ marginBottom: 5}}>
+        To start, sign in with Google!
+      </Typography>
       <Button
         sx={{ marginBottom: 5 }}
         variant="contained"
+        color="secondary"
         endIcon={<GoogleIcon />}
         onClick={handleSignInClick}
       >

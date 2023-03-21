@@ -14,3 +14,16 @@
   width: 100vw;
   height: 100vh;
 }
+
+.chat_container {
+  height: 85%;
+  min-width: 100%;
+}
+
+.message_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 79.3vw;
+  height: 15%;
+}
