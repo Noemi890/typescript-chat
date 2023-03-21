@@ -1,12 +1,12 @@
 import { Snackbar, Alert, TextField, Divider, Paper } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import { NavBar } from "./NavBar";
-import { Message } from "./Message";
+import { MessageItem } from "./MessageItem";
 import { Send } from "@mui/icons-material";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, getDocs, onSnapshot, query, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { TransitionUp } from "../Auth";
 const cookies = new Cookies();
@@ -16,12 +16,35 @@ interface Props {
   name: string | null;
 }
 
+interface Message {
+  id: string;
+  text: string;
+  user: string;
+}
+
 export const Chat: FC<Props> = ({ setIsAuth, name }) => {
+  const [chat, setChat] = useState<Message[]>([])
   const [message, setMessage] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const collectionRef = collection(db, "messages");
+
+  
+
+
+  useEffect(() => {
+    const queryMessages = query(collectionRef)
+    onSnapshot(queryMessages, (snapshot) => {
+     let messages: Message[] = []
+     snapshot.forEach((doc) => {
+      messages.push({...doc.data() as Message, id: doc.id})
+      
+     })
+     setChat(messages)
+    })
+    //eslint-disable-next-line
+  }, [])
 
   const handleLogOut = () => {
     cookies.remove("auth-token");
@@ -87,10 +110,11 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
   return (
     <>
       <Paper
+        className="paper-mui-chat-container"
         sx={{
           display: "flex",
           flexDirection: "column",
-          maxWidth: "80vw",
+          maxWidth: "60vw",
           height: "80%",
           overflow: "hidden",
           border: "solid 5px black"
@@ -98,8 +122,8 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
       >
         <div className="chat_container">
           {
-            mockData.map((msg, key) => {
-              return <Message key={key} name={msg.name} message={msg.message} />
+            chat.map((msg, key) => {
+              return <MessageItem key={key} name={msg.user} message={msg.text} />
             })
           }
         </div>

@@ -6,13 +6,13 @@ interface Props {
   message: string;
 }
 
-export const Message: FC<Props> = ({name, message}) => {
+export const MessageItem: FC<Props> = ({name, message}) => {
   return(
     <Card sx={{ marginBottom: "40px", marginTop: "10px", width: "90%"}}>
       <CardContent>
-        <Typography>Noemi</Typography>
+        <Typography>{name}</Typography>
         <Divider sx={{margin: "10px 0"}} />
-        <Typography>Hello world</Typography>
+        <Typography>{message}</Typography>
       </CardContent>
     </Card>
   )
