@@ -4,6 +4,7 @@ import LoadingButton from "@mui/lab/LoadingButton"
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import Cookies from "universal-cookie";
 import { NavBar } from "./NavBar";
+import { Message } from "./Message";
 import { Send } from "@mui/icons-material";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
@@ -60,7 +61,9 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
         }}
       >
         
-        <div className="chat_container"></div>
+        <div className="chat_container">
+          <Message />
+        </div>
         <Divider />
         <div className="message_container">
           <TextField

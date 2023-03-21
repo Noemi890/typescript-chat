@@ -18,6 +18,8 @@
 .chat_container {
   height: 85%;
   min-width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .message_container {
