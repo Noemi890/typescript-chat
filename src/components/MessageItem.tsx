@@ -9,11 +9,11 @@ interface Props {
 
 export const MessageItem: FC<Props> = ({name, message, createdAt}) => {
 
-  const correctTime = () => {
-    const milliseconds = Number(createdAt.seconds) * 1000
-    const date = new Date(milliseconds)
-    return date.toDateString()
-  }
+  // const correctTime = () => {
+  //   const milliseconds = Number(createdAt.seconds) * 1000
+  //   const date = new Date(milliseconds)
+  //   return date.toDateString()
+  // }
 
   return(
     <Card elevation={5} sx={{ marginBottom: "40px", marginTop: "10px", width: "90%"}}>

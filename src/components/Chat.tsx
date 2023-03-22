@@ -1,12 +1,11 @@
 import { Snackbar, Alert, TextField, Divider, Paper } from "@mui/material";
-import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import { NavBar } from "./NavBar";
 import { MessageItem } from "./MessageItem";
 import { Send } from "@mui/icons-material";
-import { addDoc, collection, getDocs, onSnapshot, query, orderBy, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, query, orderBy, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { TransitionUp } from "../Auth";
 const cookies = new Cookies();
