@@ -21,8 +21,3 @@ const provider: GoogleAuthProvider = new GoogleAuthProvider()
 export const signInWithGoogle = (): Promise<UserCredential> => {
   return signInWithPopup(auth, provider)
 }
-
-// export const getChat = () => {
-//   return getDocs()
-// }
-

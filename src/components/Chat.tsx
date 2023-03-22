@@ -42,9 +42,6 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
       
      })
      setChat(messages)
-    //  const newtime = Number(chat[7].createdAt.seconds) * 1000
-    //  const date = new Date(newtime)
-    //  console.log(date.toDateString())
     })
     //eslint-disable-next-line
   }, [])
