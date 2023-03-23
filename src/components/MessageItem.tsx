@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Card, CardContent, Divider, Typography, Chip, CardActions, IconButton } from "@mui/material";
+import { CardContent, Divider, Typography, Chip, CardActions, IconButton, Paper } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { auth } from "../config/firebase";
@@ -23,7 +23,7 @@ export const MessageItem: FC<Props> = ({name, message, createdAt, userId}) => {
   }
 
   return(
-    <Card elevation={5} className="fade_in_card" sx={{ marginBottom: "40px", marginTop: "10px", width: "90%"}}>
+    <Paper className="fade_in_card chat" sx={{ marginBottom: "40px", marginTop: "10px", width: "90%"}}>
       <CardContent sx={{ display: "flex", justifyContent: "space-evenly"}}>
         <Typography fontSize={18}>{name}</Typography>
         <Chip label={correctTime()} variant="outlined" />
@@ -44,6 +44,6 @@ export const MessageItem: FC<Props> = ({name, message, createdAt, userId}) => {
           </CardActions>
         )
       }
-    </Card>
+    </Paper>
   )
 }
