@@ -33,6 +33,10 @@
   height: 15%;
 }
 
+span.MuiBottomNavigationAction-label {
+  font-size: x-large;
+}
+
 @media screen and (max-width: 900px) {
   .paper-mui-chat-container.MuiPaper-root {
     max-width: 70vw;

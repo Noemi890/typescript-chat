@@ -3,6 +3,7 @@ import { Card, CardContent, Divider, Typography, Chip, CardActions, IconButton }
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import { auth } from "../config/firebase";
+// import { deleteDoc } from "firebase/firestore";
 
 interface Props {
   name: string | null;

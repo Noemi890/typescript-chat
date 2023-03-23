@@ -42,7 +42,6 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
      let messages: Message[] = []
      snapshot.forEach((doc) => {
       messages.push({...doc.data() as Message, id: doc.id})
-      
      })
      setChat(messages)
     })
@@ -79,14 +78,14 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
   return (
     <>
       <Paper
+        elevation={5}
         className="paper-mui-chat-container"
         sx={{
           display: "flex",
           flexDirection: "column",
           maxWidth: "60vw",
-          height: "80%",
-          overflow: "hidden",
-          border: "solid 5px black"
+          height: "85%",
+          overflow: "hidden"
         }}
       >
         <div className="chat_container" ref={scrollContainer}>
