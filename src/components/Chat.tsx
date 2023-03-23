@@ -1,6 +1,6 @@
 import { Snackbar, Alert, TextField, Divider, Paper } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 import Cookies from "universal-cookie";
 import { NavBar } from "./NavBar";
 import { MessageItem } from "./MessageItem";
@@ -12,26 +12,29 @@ const cookies = new Cookies();
 
 interface Props {
   setIsAuth: Dispatch<SetStateAction<string | null>>;
-  name: string | null;
 }
 
 interface Message {
   id: string;
   text: string;
   user: string;
+  userId: string;
   createdAt: { nanoseconds: string, seconds: string}
 }
 
-export const Chat: FC<Props> = ({ setIsAuth, name }) => {
-  const [chat, setChat] = useState<Message[]>([])
+export const Chat: FC<Props> = ({ setIsAuth }) => {
+  const scrollContainer = useRef<HTMLDivElement>(null);
+  const [chat, setChat] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const collectionRef = collection(db, "messages");
-
   
-
+  useEffect(() => {
+    const chatHistory = scrollContainer.current;
+     if (chatHistory !== null) chatHistory.scrollTop = chatHistory.scrollHeight;
+  }, [chat])
 
   useEffect(() => {
     const queryMessages = query(collectionRef, orderBy('createdAt'))
@@ -59,6 +62,7 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
         text: message,
         createdAt: serverTimestamp(),
         user: auth.currentUser?.displayName,
+        userId: auth.currentUser?.uid
       }).then(() => {
         setTimeout(() => {
           setLoading(false);
@@ -85,10 +89,10 @@ export const Chat: FC<Props> = ({ setIsAuth, name }) => {
           border: "solid 5px black"
         }}
       >
-        <div className="chat_container">
+        <div className="chat_container" ref={scrollContainer}>
           {
             chat.map((msg, key) => {
-              return <MessageItem key={key} name={msg.user} message={msg.text} createdAt={msg.createdAt} />
+              return <MessageItem key={key} userId={msg.userId} name={msg.user} message={msg.text} createdAt={msg.createdAt} />
             })
           }
         </div>

@@ -8,13 +8,12 @@ const App: FC = () => {
   const [isAuth, setIsAuth] = useState<string | null>(
     cookies.get("auth-token")
   );
-  const [name, setName] = useState<string | null>("")
 
   return (
     <div className="App">
-      {!isAuth && <Auth setIsAuth={setIsAuth} setName={setName}/>}
+      {!isAuth && <Auth setIsAuth={setIsAuth} />}
 
-      {isAuth && <Chat setIsAuth={setIsAuth} name={name}/>}
+      {isAuth && <Chat setIsAuth={setIsAuth} />}
     </div>
   );
 }

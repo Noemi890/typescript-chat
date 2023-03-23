@@ -15,17 +15,15 @@ export const TransitionUp = (props: TransitionProps) => {
 
 interface Props {
   setIsAuth: Dispatch<SetStateAction<string | null>>;
-  setName: Dispatch<SetStateAction<string | null>>;
 }
 
-export const Auth: FC<Props> = ({ setIsAuth, setName }) => {
+export const Auth: FC<Props> = ({ setIsAuth }) => {
   const [open, setIsOpen] = useState(false);
 
   const handleSignInClick = () => {
     signInWithGoogle()
       .then((data) => {
         cookies.set("auth-token", data.user.refreshToken);
-        setName(data.user.displayName);
       })
       .then(() => setIsAuth(cookies.get("auth-token")))
       .catch((e) => {
@@ -43,7 +41,7 @@ export const Auth: FC<Props> = ({ setIsAuth, setName }) => {
         To start, sign in with Google!
       </Typography>
       <Button
-        data-testId="signInWithGoogle"
+        data-testid="signInWithGoogle"
         sx={{ marginBottom: 5 }}
         variant="contained"
         color="secondary"
