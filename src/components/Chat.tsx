@@ -88,7 +88,7 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
           overflow: "hidden"
         }}
       >
-        <div className="chat_container" ref={scrollContainer}>
+        <div className="chat" ref={scrollContainer}>
           {
             chat.map((msg, key) => {
               return <MessageItem key={key} userId={msg.userId} name={msg.user} message={msg.text} createdAt={msg.createdAt} />

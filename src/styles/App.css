@@ -16,12 +16,9 @@
   height: 100vh;
 }
 
-.chat_container {
+.chat {
   display: flex;
-  justify-content: center;
-  flex-flow: wrap;
-  height: 85%;
-  width: 100%;
+  flex-direction: column;
   overflow-y: auto;
 }
 
@@ -49,7 +46,7 @@ span.MuiBottomNavigationAction-label {
   }
 }
 
-.fade_in_card.MuiCard-root {
+.fade_in_card {
 	opacity: 1;
 	animation-name: fadeInOpacity;
 	animation-iteration-count: 1;

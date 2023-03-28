@@ -1,0 +1,45 @@
+.chat-start {
+  align-self: flex-start;
+  background-color: #c5c5c5;
+}
+
+.chat-end {
+  align-self: flex-end;
+  background-color: #d1d1d1;
+}
+
+.bubble {
+  display: flex;
+  flex-direction: column;
+  max-width: 350px;
+  padding: 5px;
+  border: 0.5px solid black;
+  box-shadow: 10px 10px 21px -10px rgba(145, 145, 145, 1);
+  border-radius: 15px;
+  margin: 10px;
+}
+
+.header,
+.content {
+  opacity: 70%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+hr {
+  border-color: rgb(158, 158, 158);
+  opacity: 20%;
+}
+
+.content {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-evenly;
+}
