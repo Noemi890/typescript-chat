@@ -1,8 +1,7 @@
 import { FC } from "react";
-import { CardContent, Divider, Typography, Chip, CardActions, IconButton, Paper } from "@mui/material";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
 import { auth } from "../config/firebase";
+import { Bubble } from "./Bubble";
+import "../styles/Bubble.css"
 // import { deleteDoc } from "firebase/firestore";
 
 interface Props {
@@ -19,31 +18,10 @@ export const MessageItem: FC<Props> = ({name, message, createdAt, userId}) => {
   const correctTime = (): string => {
     const milliseconds = Number(createdAt?.seconds) * 1000
     const date = new Date(milliseconds)
-    return date.toDateString()
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
   }
 
-  return(
-    <Paper className="fade_in_card chat" sx={{ marginBottom: "40px", marginTop: "10px", width: "90%"}}>
-      <CardContent sx={{ display: "flex", justifyContent: "space-evenly"}}>
-        <Typography fontSize={18}>{name}</Typography>
-        <Chip label={correctTime()} variant="outlined" />
-        </CardContent>
-        <CardContent>
-        <Divider sx={{margin: "10px 0"}} />
-        <Typography>{message}</Typography>
-      </CardContent>
-      {
-        loggedUserId === userId && (
-          <CardActions sx={{ display: "flex", justifyContent: "space-evenly"}}>
-            <IconButton>
-              <DeleteForeverIcon />
-            </IconButton>
-            <IconButton>
-              <EditIcon />
-            </IconButton>
-          </CardActions>
-        )
-      }
-    </Paper>
+  return (
+      <Bubble name={name} message={message} date={correctTime()} userId={userId} loggedId={loggedUserId}/>
   )
 }
