@@ -13,9 +13,10 @@ interface Props {
 export const Bubble: FC<Props>  = ({ name, message, date, userId, loggedId}) => {
 
   const isOwner = userId === loggedId
+
   return (
     <div className={`bubble fade_in_card ${isOwner ? "chat-end" : "chat-start"}`}>
-      <div className="header">
+      <div className={`header ${isOwner ? "header-end" : "header-start"}`}>
         <div>{name}</div>
         <div className="date">{date}</div>
       </div>
@@ -26,10 +27,10 @@ export const Bubble: FC<Props>  = ({ name, message, date, userId, loggedId}) => 
           <>
           <hr />
           <div className="actions">
-            <IconButton>
+            <IconButton sx={{ color: "white"}}>
               <DeleteForever />
             </IconButton>
-            <IconButton>
+            <IconButton sx={{ color: "white"}}>
               <Edit />
             </IconButton>
           </div>

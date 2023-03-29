@@ -85,7 +85,8 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
           flexDirection: "column",
           maxWidth: "60vw",
           height: "85%",
-          overflow: "hidden"
+          overflow: "hidden",
+          padding: "20px"
         }}
       >
         <div className="chat" ref={scrollContainer}>
