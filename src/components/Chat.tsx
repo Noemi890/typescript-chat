@@ -1,13 +1,30 @@
+import "../styles/Bubble.css";
 import { Snackbar, Alert, TextField, Divider, Paper } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Cookies from "universal-cookie";
 import { NavBar } from "./NavBar";
-import { MessageItem } from "./MessageItem";
 import { Send } from "@mui/icons-material";
-import { addDoc, collection, onSnapshot, query, orderBy, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp,
+  doc,
+  deleteDoc
+} from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { TransitionUp } from "../Auth";
+import { Bubble } from "./Bubble";
 const cookies = new Cookies();
 
 interface Props {
@@ -19,7 +36,7 @@ interface Message {
   text: string;
   user: string;
   userId: string;
-  createdAt: { nanoseconds: string, seconds: string}
+  createdAt: { nanoseconds: string; seconds: string };
 }
 
 export const Chat: FC<Props> = ({ setIsAuth }) => {
@@ -30,23 +47,23 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const collectionRef = collection(db, "messages");
-  
-  useEffect(() => {
-    const chatHistory = scrollContainer.current;
-     if (chatHistory !== null) chatHistory.scrollTop = chatHistory.scrollHeight;
-  }, [chat])
 
   useEffect(() => {
-    const queryMessages = query(collectionRef, orderBy('createdAt'))
+    const chatHistory = scrollContainer.current;
+    if (chatHistory !== null) chatHistory.scrollTop = chatHistory.scrollHeight;
+  }, [chat]);
+
+  useEffect(() => {
+    const queryMessages = query(collectionRef, orderBy("createdAt"));
     onSnapshot(queryMessages, (snapshot) => {
-     let messages: Message[] = []
-     snapshot.forEach((doc) => {
-      messages.push({...doc.data() as Message, id: doc.id})
-     })
-     setChat(messages)
-    })
+      let messages: Message[] = [];
+      snapshot.forEach((doc) => {
+        messages.push({ ...(doc.data() as Message), id: doc.id });
+      });
+      setChat(messages);
+    });
     //eslint-disable-next-line
-  }, [])
+  }, []);
 
   const handleLogOut = () => {
     cookies.remove("auth-token");
@@ -61,7 +78,7 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
         text: message,
         createdAt: serverTimestamp(),
         user: auth.currentUser?.displayName,
-        userId: auth.currentUser?.uid
+        userId: auth.currentUser?.uid,
       }).then(() => {
         setTimeout(() => {
           setLoading(false);
@@ -75,10 +92,20 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
     }
   };
 
+  const handleDelete = (id: string) => {
+    try {
+      const docRef = doc(db, "messages", id)
+      deleteDoc(docRef)
+    } catch (err) {
+      setOpen(true)
+      console.error(err)
+    }
+  };
+
   return (
     <>
       <Paper
-        elevation={5}
+        elevation={8}
         className="paper-mui-chat-container"
         sx={{
           display: "flex",
@@ -86,15 +113,23 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
           maxWidth: "60vw",
           height: "85%",
           overflow: "hidden",
-          padding: "20px"
+          padding: "20px",
         }}
       >
         <div className="chat" ref={scrollContainer}>
-          {
-            chat.map((msg, key) => {
-              return <MessageItem key={key} userId={msg.userId} name={msg.user} message={msg.text} createdAt={msg.createdAt} />
-            })
-          }
+          {chat.map((msg, key) => {
+            return (
+              <Bubble
+                key={key}
+                docId={msg.id}
+                userId={msg.userId}
+                name={msg.user}
+                message={msg.text}
+                msgDate={msg.createdAt}
+                handleDelete={handleDelete}
+              />
+            );
+          })}
         </div>
         <Divider />
         <div className="message_container">

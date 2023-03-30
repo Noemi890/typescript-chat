@@ -65,3 +65,20 @@ span.MuiBottomNavigationAction-label {
 		opacity: 1;
 	}
 }
+
+/* .fade_out_card {
+  opacity: 0;
+	animation-name: fadeOutOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-out;
+	animation-duration: 1s;
+}
+
+@keyframes fadeOutOpacity {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+} */
