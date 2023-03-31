@@ -88,7 +88,11 @@ export const Bubble: FC<Props> = ({
           </>
         )}
       </div>
-      <Dialog open={openDeleteDialog} fullWidth>
+      <Dialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        fullWidth
+      >
         <DialogContent>
           <DialogContentText>
             Are you sure you want to delete this message?
@@ -114,7 +118,7 @@ export const Bubble: FC<Props> = ({
           </Button>
         </DialogActions>
       </Dialog>
-      <Dialog open={openEditDialog} fullWidth>
+      <Dialog open={openEditDialog} fullWidth onClose={handleEditDialogClose}>
         <DialogContent>
           <TextField
             fullWidth
