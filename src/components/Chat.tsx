@@ -20,7 +20,8 @@ import {
   orderBy,
   serverTimestamp,
   doc,
-  deleteDoc
+  deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { TransitionUp } from "../Auth";
@@ -92,13 +93,31 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
     }
   };
 
+  const handleEdit = (
+    id: string,
+    editMessage: string,
+    handleEditDialogClose: (arg: boolean) => void,
+    setEditMessage: Dispatch<SetStateAction<string>>
+  ) => {
+    const docRef = doc(db, "messages", id);
+    const newMessage = { text: editMessage };
+    try {
+      updateDoc(docRef, newMessage);
+      setEditMessage("")
+      handleEditDialogClose(false);
+    } catch (err) {
+      setOpen(true);
+      console.error(err);
+    }
+  };
+
   const handleDelete = (id: string) => {
     try {
-      const docRef = doc(db, "messages", id)
-      deleteDoc(docRef)
+      const docRef = doc(db, "messages", id);
+      deleteDoc(docRef);
     } catch (err) {
-      setOpen(true)
-      console.error(err)
+      setOpen(true);
+      console.error(err);
     }
   };
 
@@ -127,6 +146,7 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
                 message={msg.text}
                 msgDate={msg.createdAt}
                 handleDelete={handleDelete}
+                handleEdit={handleEdit}
               />
             );
           })}
