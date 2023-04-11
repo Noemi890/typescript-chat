@@ -44,7 +44,8 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
   const scrollContainer = useRef<HTMLDivElement>(null);
   const [chat, setChat] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
+  const [openError, setOpenError] = useState<boolean>(false);
+  const [openEmptyField, setOpenEmptyField] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const collectionRef = collection(db, "messages");
@@ -73,7 +74,11 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
 
   const sendMessage = () => {
     setLoading(true);
-    if (message === "") return;
+    if (message === "") {
+      setOpenEmptyField(true)
+      setLoading(false)
+      return
+    };
     try {
       addDoc(collectionRef, {
         text: message,
@@ -88,7 +93,7 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
       });
     } catch (e) {
       setLoading(false);
-      setOpen(true);
+      setOpenError(true);
       console.error(e);
     }
   };
@@ -106,7 +111,7 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
       setEditMessage("")
       handleEditDialogClose(false);
     } catch (err) {
-      setOpen(true);
+      setOpenError(true);
       console.error(err);
     }
   };
@@ -116,7 +121,7 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
       const docRef = doc(db, "messages", id);
       deleteDoc(docRef);
     } catch (err) {
-      setOpen(true);
+      setOpenError(true);
       console.error(err);
     }
   };
@@ -164,7 +169,7 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
           />
           <LoadingButton
             loading={loading}
-            variant="contained"
+            variant="outlined"
             color="secondary"
             endIcon={<Send />}
             onClick={sendMessage}
@@ -175,13 +180,22 @@ export const Chat: FC<Props> = ({ setIsAuth }) => {
       </Paper>
       <NavBar handleLogOut={handleLogOut} />
       <Snackbar
-        open={open}
+        open={openError}
         TransitionComponent={TransitionUp}
-        autoHideDuration={5000}
-        onClose={() => setOpen(false)}
+        autoHideDuration={2500}
+        onClose={() => setOpenError(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert severity="error">Something went wrong!</Alert>
+      </Snackbar>
+      <Snackbar
+        open={openEmptyField}
+        TransitionComponent={TransitionUp}
+        autoHideDuration={2500}
+        onClose={() => setOpenEmptyField(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert severity="error">Empty Field! Write something first..</Alert>
       </Snackbar>
     </>
   );

@@ -33,7 +33,7 @@ export const Auth: FC<Props> = ({ setIsAuth }) => {
   };
 
   return (
-    <div>
+    <div className="auth">
       <Typography fontSize={30} gutterBottom>
         Welcome to Chat-App!
       </Typography>
@@ -42,10 +42,10 @@ export const Auth: FC<Props> = ({ setIsAuth }) => {
       </Typography>
       <Button
         data-testid="signInWithGoogle"
-        sx={{ marginBottom: 5 }}
-        variant="contained"
+        sx={{ marginBottom: 5, width: "300px", height: "100px", fontSize: "25px" }}
+        variant="outlined"
         color="secondary"
-        endIcon={<GoogleIcon />}
+        endIcon={<GoogleIcon className="google-icon" />}
         onClick={handleSignInClick}
       >
         Sign In with Google
